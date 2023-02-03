@@ -6,7 +6,7 @@ import org.openqa.selenium.support.PageFactory;
 import utilities.Driver;
 
 public class LoginPage {
-    public LoginPage() {// constractor olusturup public yapmamiz gerekir
+    public LoginPage() {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 

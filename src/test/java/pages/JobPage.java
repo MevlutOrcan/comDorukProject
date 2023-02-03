@@ -42,7 +42,7 @@ public class JobPage {
     @FindBy(xpath = "//*[@class=\"swal2-confirm swal2-styled\"]")
     public WebElement okButton;
 
-    @FindBy(id = "activeJobListButton")
+    @FindBy(xpath = "//div[@id='activeJobListButton']/parent::div")
     public WebElement activeJobInformationButton;
 
     @FindBy(css = ".col-6.col-md-2.disabled>#activeJobListButton")
@@ -70,9 +70,6 @@ public class JobPage {
 
     @FindBy(xpath = "//div[@class=\"dx-template-wrapper dx-button-content\" and .=' Finish the Job ']")
     public WebElement finishTheJobButton;
-
-    @FindBy(id = "swal2-title")
-    public WebElement finishVerficationMessage;
 
     @FindBy(xpath = "//*[@type=\"button\" and .='No']")
     public WebElement noButton;

@@ -61,31 +61,29 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
     @Test(dependsOnMethods = {"login_Positive"}, priority = 1)
     public void chooseGroupTest() {
         extentTest = extentReports.createTest("TC_01 Choose a Group Test",
-                            "User chooses group that includes text 'Automation'");
+                            "User chooses group that includes text '"+ConfigReader.getProperty("SEARCHEDWORD")+"'");
 
         moveElement(dashboardPage().dashboardIcon);
         clickElement(dashboardPage().ipcButton);
         extentTest.info("User clicks IPC button on the left side");
 
-        String searchedName="Automation";
-        enterKeys(dashboardPage().searchBoxUnderTheName, searchedName);
-        extentTest.info("User writes 'Automation' to search box under the name column");
+
+        enterKeys(dashboardPage().searchBoxUnderTheName, ConfigReader.getProperty("SEARCHEDWORD"));
+        extentTest.info("User writes '"+ConfigReader.getProperty("SEARCHEDWORD")+"' to search box under the name column");
 
         waitThread(1);
         int groupNameSize = dashboardPage().groupNamesList.size();
         for (int i = 0; i < groupNameSize; i++) {
             if (Driver.getDriver().findElement(By.xpath("(//tbody)[3]/tr["+(i+1)+"]/td[3]"))
-                    .getText().contains(searchedName)){
-                System.out.println(i);
-
+                    .getText().contains(ConfigReader.getProperty("SEARCHEDWORD"))){
                 jsclick(Driver.getDriver().findElement(By.xpath("(//*[@class='dx-icon fas fa-link'])["+i+1+"]")));
                 break;
             }
         }
-        extentTest.info("The user clicks the 'connect button' on the row containing the text 'Automation'");
+        extentTest.info("The user clicks the 'connect button' on the row containing the text '"+ConfigReader.getProperty("SEARCHEDWORD")+"'");
 
-        nameOfMachine = dashboardPage().simensMakineText.getText();
-        assertEquals(dashboardPage().simensMakineText.getText(), "SiemensMakine");
+        nameOfMachine = dashboardPage().machineNameText.getText();
+        assertEquals(dashboardPage().machineNameText.getText(), ConfigReader.getProperty("MACHINENAME"));
         extentTest.pass("User verifies SiemensMakine text on the header");
 
 
@@ -106,8 +104,8 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         clickElement(jobPage().selectFromListButton);
         extentTest.info("User clicks  the Select from List Button");
 
-        jobPage().orderReferenceNoSearchBox.sendKeys("Automation");
-        extentTest.info("User enters 'Automation' the search box under the Order Reference No column ");
+        jobPage().orderReferenceNoSearchBox.sendKeys(ConfigReader.getProperty("SEARCHEDWORD"));
+        extentTest.info("User enters '"+ConfigReader.getProperty("SEARCHEDWORD")+"' the search box under the Order Reference No column ");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -157,6 +155,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         extentTest = extentReports.createTest("TC_04 Verify job information",
                 "User does verifies that Machine name,OrderReference No, Order Op. ID, Plan Quantity, Speed ");
 
+        removeValueByJS(jobPage().activeJobInformationButton);
         clickElement(jobPage().activeJobInformationButton);
         extentTest.info("User clicks Active Job Information button");
 

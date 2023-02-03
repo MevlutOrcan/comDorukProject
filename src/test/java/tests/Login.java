@@ -4,7 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.*;
 import utilities.*;
+
 import static org.testng.Assert.*;
+
 public class Login extends TestBaseRapor {
 
     Select select;
@@ -16,23 +18,23 @@ public class Login extends TestBaseRapor {
                 {"English", "Hello "},
                 {"Português", "Olá "},
                 {"日本語", "こんにちは "},
-            };
+        };
     }
 
     @DataProvider
     public static Object[][] username() {
         return new Object[][]{
-                {"USERNAME","INVALIDPASSWORD"},
-                {"INVALIDUSERNAME","PASSWORD"},
-                {"INVALIDUSERNAME","INVALIDPASSWORD"},
-                {"USERNAME","BLANKE"},
-                {"BLANKE","PASSWORD"},
-                {"BLANKE","BLANKE"},
+                {"USERNAME", "INVALIDPASSWORD"},
+                {"INVALIDUSERNAME", "PASSWORD"},
+                {"INVALIDUSERNAME", "INVALIDPASSWORD"},
+                {"USERNAME", "BLANKE"},
+                {"BLANKE", "PASSWORD"},
+                {"BLANKE", "BLANKE"},
         };
     }
 
     @Test(dataProvider = "language")
-    public void loginDifferentLanguage(String language,String hello) {
+    public void loginDifferentLanguage(String language, String hello) {
 
         extentTest = extentReports.createTest("TC_01-02-03-04 Login with Different Language Tests",
                 "User logs in to the app with valid ID and valid Password and different Language");
@@ -58,15 +60,16 @@ public class Login extends TestBaseRapor {
 
         String welcome = dashboardPage().helloButton.getText() + " " + Driver.getDriver().findElement(By.xpath("//h6/*[.=' " + ConfigReader.getProperty("USERNAME") + "']")).getText();
         assertEquals(hello + ConfigReader.getProperty("USERNAME"), welcome);
-        extentTest.pass("User verifies the welcome message '"+hello+" selenium' is visible");
+        extentTest.pass("User verifies the welcome message '" + hello + " selenium' is visible");
 
         clickElement(dashboardPage().helloTextButton);
         clickElement(dashboardPage().signOutButton);
         clickElement(dashboardPage().enterButtonAfterSignOut);
 
     }
+
     @Test(dataProvider = "username")
-    public void negativeLoginTest(String username,String password) {
+    public void negativeLoginTest(String username, String password) {
 
         extentTest = extentReports.createTest("TC_05-06-07-08-09-10 Negative Login Tests",
                 "User logs in to the app with valid ID and valid Password and different Language");
@@ -90,7 +93,7 @@ public class Login extends TestBaseRapor {
         clickElement(loginPage().enterButton);
         extentTest.info("User clicks enter button");
 
-
+        isElementPresent(loginPage().alertText);
         extentTest.pass("User verifies the error message is visible");
 
 

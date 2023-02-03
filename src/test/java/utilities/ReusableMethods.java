@@ -95,7 +95,7 @@ public class ReusableMethods extends Pages {
 
     public static void removeValueByJS(WebElement element){
         JavascriptExecutor js = (JavascriptExecutor)Driver.getDriver();
-        js.executeScript("arguments[0].removeAttribute('class','disabled')",element);
+        js.executeScript("arguments[0].removeAttribute('class')",element);
     }
 
 

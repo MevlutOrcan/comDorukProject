@@ -54,14 +54,14 @@ public class Driver {
     }
 
     public static void closeDriver() {
-        if (driver != null) { //driver a deger atanmissa
+        if (driver != null) {
             driver.close();
         }
-        driver = null;//Kapandiktan sonraki acmalari garanti altina almak icin driver i tekrar null yaptik
+        driver = null;
     }
 
     public static void quitDriver() {
-        if (driver != null) { //driver a deger atanmissa
+        if (driver != null) {
             driver.quit();
         }
         driver = null;

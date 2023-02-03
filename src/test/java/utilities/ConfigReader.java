@@ -9,12 +9,12 @@ public class ConfigReader {
     public static Properties properties;
 
 
-static {//tum methodlardan method dan once calisir
+static {
         String filePath="configuration.properties";
     try {
         FileInputStream fis=new FileInputStream(filePath);
         properties=new Properties();
-        properties.load(fis);//fis in okudugu bilgileri properties e yukledi
+        properties.load(fis);
     } catch (IOException e) {
         throw new RuntimeException(e);
     }
@@ -22,12 +22,7 @@ static {//tum methodlardan method dan once calisir
 
 
     public static String getProperty(String key){
-        /*
-        test methodundan yolladigimiz String key degerini alip
-        Properties class indan getProperty() methodunu kullanarak
-        bu key e ait value yu bize getirir
-         */
-        return properties.getProperty(key);//
+        return properties.getProperty(key);
     }
 
 

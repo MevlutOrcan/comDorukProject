@@ -1,7 +1,4 @@
 package pages;
-
-import utilities.TestBaseCross;
-
 public class Pages {
     LoginPage loginPage;
     DashboardPage dashboardPage;

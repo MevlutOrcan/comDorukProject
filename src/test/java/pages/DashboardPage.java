@@ -8,7 +8,7 @@ import utilities.Driver;
 import java.util.List;
 
 public class DashboardPage {
-    public DashboardPage() {// constractor olusturup public yapmamiz gerekir
+    public DashboardPage() {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
@@ -39,7 +39,7 @@ public class DashboardPage {
     public List<WebElement> groupNamesList;
 
     @FindBy(css = ".kt-margin-b-0.kt-valign-middle.kt-block-inline")
-    public WebElement simensMakineText;
+    public WebElement machineNameText;
 
 
 }
