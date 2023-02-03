@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Cross Browser Class Calistirma">
+    <test name="Cross Browser Chrome Test">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="tests.Start_Review_Finish_Job"/>
+        </classes>
+    </test>
+    <test name="Cross Browser FireFox Test">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="tests.Login"/>
+        </classes>
+    </test>
+
+</suite>
