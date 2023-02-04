@@ -12,11 +12,8 @@ public class JobPage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    @FindBy(xpath = "//div[.='Job' and @class=\"kt-portlet\"]")
+    @FindBy(xpath = "//*[@id='epcJobFinishPopupAndSelectionButton']/parent::div")
     public WebElement jobButton;
-
-    @FindBy(xpath = "//*[@class=\"col-6 col-md-3 disabled\" and .='Job']")
-    public List<WebElement> pasiveJobButtonList;
 
      @FindBy(xpath = "//*[@class=\"dx-template-wrapper dx-button-content\" and .=' Select from List ']")
     public WebElement selectFromListButton;
@@ -44,10 +41,6 @@ public class JobPage {
 
     @FindBy(xpath = "//div[@id='activeJobListButton']/parent::div")
     public WebElement activeJobInformationButton;
-
-    @FindBy(css = ".col-6.col-md-2.disabled>#activeJobListButton")
-    public List<WebElement> notEnabledActiveJobInformationButtonList;
-
 
 
     @FindBy(xpath = "//div[@class=\"row\"]/div[@class=\"col\" and .=' Machine ']//following-sibling::div")

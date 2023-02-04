@@ -10,6 +10,7 @@ import utilities.ConfigReader;
 import utilities.Driver;
 import utilities.TestBaseRapor;
 
+
 import java.util.List;
 import java.util.Random;
 
@@ -30,7 +31,8 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
     @Test
     public void login_Positive() {
 
-        extentTest = extentReports.createTest("TC_01 Login Pozitive Test", "User logs in to the app with valid ID and valid Password");
+        extentTest = extentReports.createTest("TC_01 Login Pozitive Test",
+                            "User logs in to the app with valid ID and valid Password");
 
         Driver.getDriver().get(ConfigReader.getProperty("URL"));
         extentTest.info("User goes to https://cloud.promanage.net/testteam/ui");
@@ -43,10 +45,10 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         extentTest.info("User enters valid password to password text box");
 
         select = new Select(loginPage().languageDropDown);
-        if (!select.getFirstSelectedOption().getText().equals("English")) {
-            select.selectByVisibleText("English");
+        if (!select.getFirstSelectedOption().getText().equals(ConfigReader.getProperty("DEFAULTLANGUAGE"))) {
+            select.selectByVisibleText(ConfigReader.getProperty("DEFAULTLANGUAGE"));
         }
-        extentTest.info("User chooses English from language dropdown");
+        extentTest.info("User chooses "+ConfigReader.getProperty("DEFAULTLANGUAGE")+" from language dropdown");
 
         clickElement(loginPage().enterButton);
         extentTest.info("User clicks enter button");
@@ -61,7 +63,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
     @Test(dependsOnMethods = {"login_Positive"}, priority = 1)
     public void chooseGroupTest() {
         extentTest = extentReports.createTest("TC_01 Choose a Group Test",
-                            "User chooses group that includes text '"+ConfigReader.getProperty("SEARCHEDWORD")+"'");
+                "User chooses group that includes text '" + ConfigReader.getProperty("SEARCHEDWORD") + "'");
 
         moveElement(dashboardPage().dashboardIcon);
         clickElement(dashboardPage().ipcButton);
@@ -69,32 +71,38 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
 
 
         enterKeys(dashboardPage().searchBoxUnderTheName, ConfigReader.getProperty("SEARCHEDWORD"));
-        extentTest.info("User writes '"+ConfigReader.getProperty("SEARCHEDWORD")+"' to search box under the name column");
+        extentTest.info("User writes '" + ConfigReader.getProperty("SEARCHEDWORD") + "' to search box under the name column");
 
         waitThread(1);
         int groupNameSize = dashboardPage().groupNamesList.size();
         for (int i = 0; i < groupNameSize; i++) {
-            if (Driver.getDriver().findElement(By.xpath("(//tbody)[3]/tr["+(i+1)+"]/td[3]"))
-                    .getText().contains(ConfigReader.getProperty("SEARCHEDWORD"))){
-                jsclick(Driver.getDriver().findElement(By.xpath("(//*[@class='dx-icon fas fa-link'])["+i+1+"]")));
+            if (Driver.getDriver().findElement(By.xpath("(//tbody)[3]/tr[" + (i + 1) + "]/td[3]"))
+                    .getText().contains(ConfigReader.getProperty("SEARCHEDWORD"))) {
+                jsclick(Driver.getDriver().findElement(By.xpath("(//*[@class='dx-icon fas fa-link'])[" + i + 1 + "]")));
                 break;
             }
         }
-        extentTest.info("The user clicks the 'connect button' on the row containing the text '"+ConfigReader.getProperty("SEARCHEDWORD")+"'");
+        extentTest.info("The user clicks the 'connect button' on the row containing the text '" + ConfigReader.getProperty("SEARCHEDWORD") + "'");
 
         nameOfMachine = dashboardPage().machineNameText.getText();
         assertEquals(dashboardPage().machineNameText.getText(), ConfigReader.getProperty("MACHINENAME"));
-        extentTest.pass("User verifies SiemensMakine text on the header");
+        extentTest.pass("User verifies "+ConfigReader.getProperty("MACHINENAME")+" text on the header");
 
 
     }
 
-    @Test(dependsOnMethods = {"chooseGroupTest"}, priority = 2)
+    @Test(dependsOnMethods = {"login_Positive","chooseGroupTest"}, priority = 2)
     public void chooseAJob() {
 
         extentTest = extentReports.createTest("TC_02 Choose a Job Test",
-                    "User chooses a job from work order by selecting from list");
+                "User chooses a job from work order by selecting from list");
 
+        if (jobPage().jobButton.getAttribute("class").contains("disabled")) {
+
+            getScreenshot("Disable "+ jobPage().jobButton.getText());
+            removeValueByJS(jobPage().activeJobInformationButton);
+
+        }
         clickElement(jobPage().jobButton);
         extentTest.info("User clicks the Job button");
 
@@ -104,13 +112,11 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         clickElement(jobPage().selectFromListButton);
         extentTest.info("User clicks  the Select from List Button");
 
+        waitThread(1);
         jobPage().orderReferenceNoSearchBox.sendKeys(ConfigReader.getProperty("SEARCHEDWORD"));
-        extentTest.info("User enters '"+ConfigReader.getProperty("SEARCHEDWORD")+"' the search box under the Order Reference No column ");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        extentTest.info("User enters '" + ConfigReader.getProperty("SEARCHEDWORD") + "' the search box under the Order Reference No column ");
+
+        waitThread(1);
         List<WebElement> radioButtonList = jobPage().radioButtonList;
         Random rnd = new Random();
         int rank = rnd.nextInt(radioButtonList.size());
@@ -126,7 +132,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         extentTest.pass("User verifies that the information of row is available");
     }
 
-    @Test(dependsOnMethods = {"chooseGroupTest", "chooseAJob"}, priority = 3)
+    @Test(dependsOnMethods = {"login_Positive","chooseGroupTest", "chooseAJob"}, priority = 3)
     public void startMachine() {
 
         extentTest = extentReports.createTest("TC_03 Start a Machine Test",
@@ -144,18 +150,23 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         clickElement(jobPage().okButton);
         extentTest.info("User clicks ok button");
 
-        assertTrue(jobPage().activeJobInformationButton.isEnabled());
+
+        assertFalse(jobPage().activeJobInformationButton.getAttribute("class").contains("disabled"));
         extentTest.pass("User verifies Active Job Information button is enabled");
 
 
     }
 
-    @Test(dependsOnMethods = {"chooseGroupTest", "chooseAJob", "startMachine"}, priority = 4)
+    @Test(dependsOnMethods = {"login_Positive","chooseGroupTest", "chooseAJob", "startMachine"}, priority = 4)
     public void informationVerify() {
         extentTest = extentReports.createTest("TC_04 Verify job information",
                 "User does verifies that Machine name,OrderReference No, Order Op. ID, Plan Quantity, Speed ");
 
-        removeValueByJS(jobPage().activeJobInformationButton);
+        if (jobPage().activeJobInformationButton.getAttribute("class").contains("disabled")) {
+            getScreenshot("Disable "+ jobPage().activeJobInformationButton.getText());
+
+            removeValueByJS(jobPage().activeJobInformationButton);
+        }
         clickElement(jobPage().activeJobInformationButton);
         extentTest.info("User clicks Active Job Information button");
 
@@ -180,18 +191,18 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         clickElement(jobPage().xButton);
         extentTest.info("User clicks X button");
 
-        assertEquals(0, jobPage().notEnabledActiveJobInformationButtonList.size());
+        assertFalse(jobPage().activeJobInformationButton.getAttribute("class").contains("disabled"));
         extentTest.pass("User verifies Active Job Information button is enabled");
     }
 
-    @Test(dependsOnMethods = {"chooseGroupTest", "chooseAJob", "startMachine"}, priority = 4)
+    @Test(dependsOnMethods = {"login_Positive","chooseGroupTest", "chooseAJob", "startMachine"}, priority = 4)
     public void notFinishTheJob() {
         extentTest = extentReports.createTest("TC_05 Not Finish the job test",
                 "User should not finish the job");
 
-
-        if (jobPage().pasiveJobButtonList.size() > 0) {
-            Driver.getDriver().navigate().refresh();
+        if (jobPage().jobButton.getAttribute("class").contains("disabled")) {
+            getScreenshot("Disable "+ jobPage().jobButton.getText());
+            removeValueByJS(jobPage().jobButton);
         }
         clickElement(jobPage().jobButton);
         extentTest.info("User clicks Job button");
@@ -202,20 +213,22 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         clickElement(jobPage().noButton);
         extentTest.info("User clicks Yes button ");
 
-        assertEquals(0, jobPage().notEnabledActiveJobInformationButtonList.size());
+        assertFalse(jobPage().activeJobInformationButton.getAttribute("class").contains("disabled"));
         extentTest.pass("User verifies that the Active Job Button is enabled");
 
 
     }
 
-    @Test(dependsOnMethods = {"chooseGroupTest", "chooseAJob", "startMachine"}, priority = 5)
+    @Test(dependsOnMethods = {"login_Positive","chooseGroupTest", "chooseAJob", "startMachine"}, priority = 5)
     public void finishTheJob() {
         extentTest = extentReports.createTest("TC_06 Finish the job test",
-                                "User should finish the job");
+                "User should finish the job");
 
 
-        if (jobPage().pasiveJobButtonList.size() > 0) {
-            Driver.getDriver().navigate().refresh();
+        if (jobPage().jobButton.getAttribute("class").contains("disabled")) {
+            getScreenshot("Disable "+ jobPage().jobButton.getText());
+            removeValueByJS(jobPage().jobButton);
+
         }
         clickElement(jobPage().jobButton);
         extentTest.info("User clicks Job button");
@@ -226,7 +239,8 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         clickElement(jobPage().yesButton);
         extentTest.info("User clicks Yes button ");
 
-        assertEquals(1, jobPage().notEnabledActiveJobInformationButtonList.size());
+        waitThread(1);
+        assertTrue(jobPage().activeJobInformationButton.getAttribute("class").contains("disabled"));
         extentTest.pass("User verifies that the Active Job Button is not enabled");
     }
 

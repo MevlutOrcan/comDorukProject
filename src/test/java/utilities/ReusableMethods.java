@@ -1,9 +1,9 @@
 package utilities;
 
-import com.github.javafaker.Faker;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.ScreenshotException;
 import org.openqa.selenium.support.ui.*;
 import pages.Pages;
 
@@ -17,7 +17,7 @@ import java.util.Date;
 import static org.testng.Assert.*;
 
 public class ReusableMethods extends Pages {
-    static Faker faker;
+
     Actions actions=new Actions(Driver.getDriver());
     public void moveElement(WebElement element){
         waitForVisibility(element,9);
@@ -31,7 +31,7 @@ public class ReusableMethods extends Pages {
         }
 
     }
-    public static String getScreenshot(String name) throws IOException {
+    public static String getScreenshot(String name) {
         // naming the screenshot with the current date to avoid duplication
         String date = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
         // TakesScreenshot is an interface of selenium that takes the screenshot
@@ -41,7 +41,11 @@ public class ReusableMethods extends Pages {
         String target = System.getProperty("user.dir") + "/target/Screenshots/" + name + date + ".png";
         File finalDestination = new File(target);
         // save the screenshot to the path given
-        FileUtils.copyFile(source, finalDestination);
+        try {
+            FileUtils.copyFile(source, finalDestination);
+        } catch (IOException e) {
+            System.out.println("screenshot doesn't work");
+        }
         return target;
     }
     public static WebElement waitForVisibility(WebElement element, int timeout) {
@@ -72,9 +76,6 @@ public class ReusableMethods extends Pages {
         element.sendKeys(keys);
     }
 
-    public static Faker getFaker() { // getFaker method
-        return faker = new Faker();
-    }
     public static void jsclick(WebElement webElement){
         JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
 
@@ -98,5 +99,21 @@ public class ReusableMethods extends Pages {
         js.executeScript("arguments[0].removeAttribute('class')",element);
     }
 
+    public static void deleteDisabledValueInClass(WebElement element){
+        JavascriptExecutor js = (JavascriptExecutor)Driver.getDriver();
+        js.executeScript("document.querySelector('div').classList.remove('disabled');",element);
+    }
+
+
+
+
+    public void clearElementValueByJS(WebElement element, String value) {
+        try {
+            JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
+            jse.executeScript("arguments[0].class='" + value + "'", element);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
