@@ -2,7 +2,6 @@ package tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -10,7 +9,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.Pages;
 import utilities.ConfigReader;
-import utilities.TestBaseCross;
 import utilities.TestBaseRapor;
 
 import java.net.MalformedURLException;
@@ -34,10 +32,10 @@ public class LoginSeleniumGrid2 extends TestBaseRapor {
         extentTest.info("User goes to https://cloud.promanage.net/testteam/ui");
 
 
-        driver.findElement(By.cssSelector("#userNamePlaceHolder")).sendKeys(ConfigReader.getProperty("USERNAME"));
+        driver.findElement(By.cssSelector("#userNamePlaceHolder")).sendKeys(ConfigReader.getProperty("VALIDUSERNAME"));
         extentTest.info("User enters valid username to user name text box");
 
-        driver.findElement(By.cssSelector("#passwordPlaceHolder")).sendKeys(ConfigReader.getProperty("PASSWORD"));
+        driver.findElement(By.cssSelector("#passwordPlaceHolder")).sendKeys(ConfigReader.getProperty("VALIDPASSWORD"));
         extentTest.info("User enters valid password to password text box");
 
         Select select=new Select(driver.findElement(By.cssSelector("#ddlModel")));

@@ -38,10 +38,10 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         extentTest.info("User goes to https://cloud.promanage.net/testteam/ui");
 
 
-        enterKeys(loginPage().usernameTextBox, ConfigReader.getProperty("USERNAME"));
+        enterKeys(loginPage().usernameTextBox, ConfigReader.getProperty("VALIDUSERNAME"));
         extentTest.info("User enters valid username to user name text box");
 
-        enterKeys(loginPage().passwordTextBox, ConfigReader.getProperty("PASSWORD"));
+        enterKeys(loginPage().passwordTextBox, ConfigReader.getProperty("VALIDPASSWORD"));
         extentTest.info("User enters valid password to password text box");
 
         chooseVisibleTextFromDropDown(loginPage().languageDropDown,ConfigReader.getProperty("DEFAULTLANGUAGE"));
@@ -50,9 +50,9 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         clickElement(loginPage().enterButton);
         extentTest.info("User clicks enter button");
 
-        String welcome = dashboardPage().helloButton.getText() + " " + Driver.getDriver().findElement(By.xpath("//h6/*[.=' " + ConfigReader.getProperty("USERNAME") + "']")).getText();
-        assertEquals("Hello " + ConfigReader.getProperty("USERNAME"), welcome);
-        extentTest.pass("User verifies the welcome message 'Hello "+ConfigReader.getProperty("USERNAME")+"' is visible");
+        String welcome = dashboardPage().helloButton.getText() + " " + Driver.getDriver().findElement(By.xpath("//h6/*[.=' " + ConfigReader.getProperty("VALIDUSERNAME") + "']")).getText();
+        assertEquals("Hello " + ConfigReader.getProperty("VALIDUSERNAME"), welcome);
+        extentTest.pass("User verifies the welcome message 'Hello "+ConfigReader.getProperty("VALIDUSERNAME")+"' is visible");
 
 
     }

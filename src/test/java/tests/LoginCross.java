@@ -15,28 +15,28 @@ public class LoginCross extends TestBaseCross {
 
     @Test
     public void upperUsername() {
-        System.out.println("TC 15 ");
-        System.out.println("\n\n\n \t\t  ********* TEST REPORT  ********* \n");
+        System.err.println("TC_17 Cross Browser Login with valid Username in Uppercase");
+        System.err.println("\n\n\n \t\t  ********* TEST REPORT  ********* \n");
         driver.get(ConfigReader.getProperty("URL"));
-        System.out.println("User goes to App");
+        System.err.println("User goes to App");
 
         driver.findElement(By.cssSelector("#userNamePlaceHolder")).sendKeys(ConfigReader.getProperty("UPPERCASEUSERNAME"));
-        System.out.println("User enters valid username in uppercase");
+        System.err.println("User enters valid username in uppercase");
 
-        driver.findElement(By.cssSelector("#passwordPlaceHolder")).sendKeys(ConfigReader.getProperty("PASSWORD"));
-        System.out.println("User enters valid password in uppercase");
+        driver.findElement(By.cssSelector("#passwordPlaceHolder")).sendKeys(ConfigReader.getProperty("VALIDPASSWORD"));
+        System.err.println("User enters valid password in uppercase");
 
         Select select=new Select(driver.findElement(By.cssSelector("#ddlModel")));
         select.selectByVisibleText(ConfigReader.getProperty("DEFAULTLANGUAGE"));
-        System.out.println("User chooses "+ConfigReader.getProperty("DEFAULTLANGUAGE")+"");
+        System.err.println("User chooses "+ConfigReader.getProperty("DEFAULTLANGUAGE")+"");
 
         driver.findElement(By.cssSelector("#loginLabel")).click();
-        System.out.println("User clicks enter button");
+        System.err.println("User clicks enter button");
 
         Assert.assertTrue(driver.findElement(By.cssSelector(".kt-header__topbar-user")).isDisplayed());
-        System.out.println("User verifies Hello messahe is visible");
+        System.err.println("User verifies Hello message is visible");
 
-        System.out.println("\n\t\t  *********  Test PASSED Successfully  ********* \n\n\n");
+        System.err.println("\n\t\t  *********  Test PASSED Successfully  ********* \n\n\n");
     }
 
 

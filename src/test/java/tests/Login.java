@@ -14,58 +14,58 @@ public class Login extends TestBaseRapor {
     @DataProvider
     public static Object[][] language() {
         return new Object[][]{
-                {"Türkçe", "Merhaba "},
-                {"English", "Hello "},
-                {"Português", "Olá "},
-                {"日本語", "こんにちは "},
+                {"Türkçe", "Merhaba ","TC_01"},
+                {"English", "Hello ","TC_02"},
+                {"Português", "Olá ","TC_03"},
+                {"日本語", "こんにちは ","TC_04"},
         };
     }
 
     @DataProvider
     public static Object[][] username() {
         return new Object[][]{
-                {"USERNAME", "INVALIDPASSWORD"},
-                {"INVALIDUSERNAME", "PASSWORD"},
-                {"INVALIDUSERNAME", "INVALIDPASSWORD"},
-                {"USERNAME", "BLANKE"},
-                {"BLANKE", "PASSWORD"},
-                {"BLANKE", "BLANKE"},
-                {"USERNAME", "SPECIALCHAR"},
-                {"SPECIALCHAR", "PASSWORD"},
-                {"SPECIALCHAR", "SPECIALCHAR"},
-                {"USERNAME", "SPACES"},
-                {"SPACES", "PASSWORD"},
-                {"SPACES", "SPACES"},
+                {"VALIDUSERNAME", "INVALIDPASSWORD","TC_05 "},
+                {"INVALIDUSERNAME", "VALIDPASSWORD","TC_06 "},
+                {"INVALIDUSERNAME", "INVALIDPASSWORD","TC_07 "},
+                {"VALIDUSERNAME", "BLANKE","TC_08 "},
+                {"BLANKE", "VALIDPASSWORD","TC_09 "},
+                {"BLANKE", "BLANKE","TC_010 "},
+                {"VALIDUSERNAME", "SPECIALCHAR","TC_011 "},
+                {"SPECIALCHAR", "VALIDPASSWORD","TC_012 "},
+                {"SPECIALCHAR", "SPECIALCHAR","TC_013 "},
+                {"VALIDUSERNAME", "SPACES","TC_014 "},
+                {"SPACES", "VALIDPASSWORD","TC_015 "},
+                {"SPACES", "SPACES","TC_016 "},
         };
     }
 
     @Test(dataProvider = "language")
-    public void loginDifferentLanguage(String language, String hello) {
+    public void loginDifferentLanguage(String language, String hello,String testCaseNo) {
 
-        extentTest = extentReports.createTest("TC_01-02-03-04 Login with Different Language Tests",
+        extentTest = extentReports.createTest(testCaseNo+" Login with Different Language Tests",
                 "User logs in to the app with valid ID and valid Password and different Language");
 
         Driver.getDriver().get(ConfigReader.getProperty("URL"));
         extentTest.info("User goes to https://cloud.promanage.net/testteam/ui");
 
 
-        enterKeys(loginPage().usernameTextBox, ConfigReader.getProperty("USERNAME"));
+        enterKeys(loginPage().usernameTextBox, ConfigReader.getProperty("VALIDUSERNAME"));
         extentTest.info("User enters valid username to user name text box");
 
-        enterKeys(loginPage().passwordTextBox, ConfigReader.getProperty("PASSWORD"));
+        enterKeys(loginPage().passwordTextBox, ConfigReader.getProperty("VALIDPASSWORD"));
         extentTest.info("User enters valid password to password text box");
 
         select = new Select(loginPage().languageDropDown);
         if (!select.getFirstSelectedOption().getText().equals(language)) {
             select.selectByVisibleText(language);
         }
-        extentTest.info("User chooses English from language dropdown");
+        extentTest.info("User chooses "+language+" from language dropdown");
 
         clickElement(loginPage().enterButton);
         extentTest.info("User clicks enter button");
 
-        String welcome = dashboardPage().helloButton.getText() + " " + Driver.getDriver().findElement(By.xpath("//h6/*[.=' " + ConfigReader.getProperty("USERNAME") + "']")).getText();
-        assertEquals(hello + ConfigReader.getProperty("USERNAME"), welcome);
+        String welcome = dashboardPage().helloButton.getText() + " " + Driver.getDriver().findElement(By.xpath("//h6/*[.=' " + ConfigReader.getProperty("VALIDUSERNAME") + "']")).getText();
+        assertEquals(hello + ConfigReader.getProperty("VALIDUSERNAME"), welcome);
         extentTest.pass("User verifies the welcome message '" + hello + " selenium' is visible");
 
         clickElement(dashboardPage().helloTextButton);
@@ -75,26 +75,26 @@ public class Login extends TestBaseRapor {
     }
 
     @Test(dataProvider = "username")
-    public void negativeLoginTest(String username, String password) {
+    public void negativeLoginTest(String username, String password,String testCaseNo) {
 
-        extentTest = extentReports.createTest("TC_05-06-07-08-09-10-11-12-13-14-15 Negative Login Tests",
-                "User logs in to the app with valid ID and valid Password and different Language");
+        extentTest = extentReports.createTest(testCaseNo+" Negative Login Tests",
+                "User logs in to the app with "+username+" as Username -"+ConfigReader.getProperty(username)+"- and "+password+" as Password -"+ConfigReader.getProperty(password)+"-");
 
         Driver.getDriver().get(ConfigReader.getProperty("URL"));
         extentTest.info("User goes to https://cloud.promanage.net/testteam/ui");
 
 
         enterKeys(loginPage().usernameTextBox, ConfigReader.getProperty(username));
-        extentTest.info("User enters valid username to user name text box");
+        extentTest.info("User enters "+username+" as username -"+ConfigReader.getProperty(username)+"- to user name text box");
 
         enterKeys(loginPage().passwordTextBox, ConfigReader.getProperty(password));
-        extentTest.info("User enters valid password to password text box");
+        extentTest.info("User enters "+password+" as password -"+ConfigReader.getProperty(password)+"-to password text box");
 
         select = new Select(loginPage().languageDropDown);
-        if (!select.getFirstSelectedOption().getText().equals("English")) {
-            select.selectByVisibleText("English");
+        if (!select.getFirstSelectedOption().getText().equals(ConfigReader.getProperty("DEFAULTLANGUAGE"))) {
+            select.selectByVisibleText(ConfigReader.getProperty("DEFAULTLANGUAGE"));
         }
-        extentTest.info("User chooses English from language dropdown");
+        extentTest.info("User chooses "+ConfigReader.getProperty("DEFAULTLANGUAGE")+" from language dropdown");
 
         clickElement(loginPage().enterButton);
         extentTest.info("User clicks enter button");
