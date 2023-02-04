@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="CrossBrowser Test" >
+    <test name="Cross Browser Chrome Test" parallel="classes" thread-count="2" verbose="1">
+        <classes>
+            <class name="tests.LoginSeleniumGrid1"/>
+            <class name="tests.LoginSeleniumGrid2"/>
+        </classes>
+    </test>
+</suite>

@@ -27,6 +27,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
     String netCycle;
 
 
+
     @Test
     public void login_Positive() {
 
@@ -69,11 +70,12 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         enterKeys(dashboardPage().searchBoxUnderTheName, ConfigReader.getProperty("SEARCHEDWORD"));
         extentTest.info("User writes '" + ConfigReader.getProperty("SEARCHEDWORD") + "' to search box under the name column");
 
-        waitThread(1);
+
         clickConnectButtonAtTheSameRowSearchedGroupName(dashboardPage().groupNamesList);
         extentTest.info("The user clicks the 'connect button' on the row containing the text '" + ConfigReader.getProperty("SEARCHEDWORD") + "'");
 
-        nameOfMachine = dashboardPage().machineNameText.getText();
+
+        nameOfMachine=dashboardPage().machineNameText.getText();
         assertEquals(dashboardPage().machineNameText.getText(), ConfigReader.getProperty("MACHINENAME"));
         extentTest.pass("User verifies "+ConfigReader.getProperty("MACHINENAME")+" text on the header");
 
@@ -109,12 +111,15 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         extentTest.info("User chooses a random row");
 
         int rowNumber = rank + 3;
+        nameOfMachine=ConfigReader.getProperty("MACHINENAME");
         orderReferanceNo = Driver.getDriver().findElement(By.xpath("(//tr)[" + rowNumber + "]/td[@aria-colindex=\"2\"]")).getText();
         orderOpId = Driver.getDriver().findElement(By.xpath("(//tr)[" + rowNumber + "]/td[@aria-colindex=\"3\"]")).getText();
         amount = Driver.getDriver().findElement(By.xpath("(//tr)[" + rowNumber + "]/td[@aria-colindex=\"4\"]")).getText();
         netCycle = Driver.getDriver().findElement(By.xpath("(//tr)[" + rowNumber + "]/td[@aria-colindex=\"5\"]")).getText();
         extentTest.info("User saves “Order Reference No, Order Op. ID, amount, net cycle” row values ");
         extentTest.pass("User verifies that the information of row is available");
+
+
     }
 
     @Test(dependsOnMethods = {"login_Positive","chooseGroupTest", "chooseAJob"}, priority = 3)
@@ -152,21 +157,24 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         extentTest.info("User clicks Active Job Information button");
 
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(jobPage().machineName.getText(), nameOfMachine);
+        softAssert.assertEquals(jobPage().machineName.getText(),nameOfMachine);
         extentTest.info("User verifies that  Machine name value equal to machine name in header ");
 
-        softAssert.assertEquals(orderReferanceNo, jobPage().orderReferenceNuber.getText());
+
+        softAssert.assertEquals(jobPage().orderReferenceNuber.getText(),orderReferanceNo);
         softAssert.assertEquals(orderOpId, jobPage().orderOpId.getText());
 
         extentTest.info("User verifies that the OrderReference No and Order Op. ID values are equal to the OrderReference No and Order Op. ID of the setup step");
 
-//*** Bug oldugu icin simdilik ignore edildi
-        //softAssert.assertEquals(amount,jobPage().planQuantity.getText());
-        //extentTest.info("User verifies that the Plan Quantity value is equal to the Amount  of the setup step");
+//*** Bu kisim esit olmali diyor ama ilk slash a kadar esit
+        String planQuantity=jobPage().planQuantity.getText().split("/")[0];
+        softAssert.assertEquals(planQuantity,amount);
+        extentTest.info("User verifies that the Plan Quantity value is equal to the Amount  of the setup step");
 
-//*** Bug oldugu icin simdilik ignore edildi
-        //softAssert.assertEquals(netCycle,jobPage().speed.getText());
-        //extentTest.info("User verifies that the Speed value is equal to the Net Cycle of the setup step");
+//*** Bu kisim esit olmali diyor ama ilk slash a kadar esit
+        String speed=jobPage().speed.getText().split("/")[0];
+        softAssert.assertEquals(speed,netCycle);
+        extentTest.info("User verifies that the Speed value is equal to the Net Cycle of the setup step");
 
         softAssert.assertAll();
         clickElement(jobPage().xButton);

@@ -1,8 +1,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="allTests">
-    <test name="regression">
-        <packages>
-            <package name="tests.*"/>
-        </packages>
+<suite name="Cross Browser Class Calistirma">
+    <test name="Cross Browser Firefox Test">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="tests.Login"/>
+            <class name="tests.Start_Review_Finish_Job"/>
+        </classes>
     </test>
 </suite>

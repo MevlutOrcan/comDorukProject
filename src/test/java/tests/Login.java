@@ -30,6 +30,12 @@ public class Login extends TestBaseRapor {
                 {"USERNAME", "BLANKE"},
                 {"BLANKE", "PASSWORD"},
                 {"BLANKE", "BLANKE"},
+                {"USERNAME", "SPECIALCHAR"},
+                {"SPECIALCHAR", "PASSWORD"},
+                {"SPECIALCHAR", "SPECIALCHAR"},
+                {"USERNAME", "SPACES"},
+                {"SPACES", "PASSWORD"},
+                {"SPACES", "SPACES"},
         };
     }
 
@@ -71,7 +77,7 @@ public class Login extends TestBaseRapor {
     @Test(dataProvider = "username")
     public void negativeLoginTest(String username, String password) {
 
-        extentTest = extentReports.createTest("TC_05-06-07-08-09-10 Negative Login Tests",
+        extentTest = extentReports.createTest("TC_05-06-07-08-09-10-11-12-13-14-15 Negative Login Tests",
                 "User logs in to the app with valid ID and valid Password and different Language");
 
         Driver.getDriver().get(ConfigReader.getProperty("URL"));

@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static org.testng.Assert.*;
 
@@ -91,20 +92,9 @@ public class ReusableMethods extends Pages {
 
     }
 
-    public static String getValueWithJs(String elementId) {
-        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
-        String value = js.executeScript("return document.getElementById('" + elementId + "').value").toString();
-        return value;
-    }
-
     public static void setValueByJS(WebElement element, String key, String text) {
         JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
         js.executeScript("arguments[0].setAttribute('" + key + "','" + text + "')", element);
-    }
-
-    public static void removeValueByJS(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
-        js.executeScript("arguments[0].removeAttribute('class')", element);
     }
 
     public static void toEnableElement(WebElement element) {
@@ -116,6 +106,7 @@ public class ReusableMethods extends Pages {
     }
 
     public static void clickConnectButtonAtTheSameRowSearchedGroupName(List<WebElement> webElementList) {
+        waitThread(1);
         int groupNameSize = webElementList.size();
         for (int i = 0; i < groupNameSize; i++) {
             if (Driver.getDriver().findElement(By.xpath("(//tbody)[3]/tr[" + (i + 1) + "]/td[3]"))
@@ -132,4 +123,6 @@ public class ReusableMethods extends Pages {
             select.selectByVisibleText(visibleText);
         }
     }
+
+
 }

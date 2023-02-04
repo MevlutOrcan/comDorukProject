@@ -1,15 +1,15 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Cross Browser Class Calistirma">
-    <test name="Cross Browser Chrome Test">
+    <test name="Cross Browser Firefox Test">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="tests.Start_Review_Finish_Job"/>
+            <class name="tests.LoginCross"/>
         </classes>
     </test>
-    <test name="Cross Browser FireFox Test">
+    <test name="Cross Browser Chrome Test">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="tests.Login"/>
+            <class name="tests.LoginCross"/>
         </classes>
     </test>
 
