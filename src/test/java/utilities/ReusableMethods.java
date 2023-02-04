@@ -3,7 +3,6 @@ package utilities;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.ScreenshotException;
 import org.openqa.selenium.support.ui.*;
 import pages.Pages;
 
@@ -13,24 +12,29 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 
 import static org.testng.Assert.*;
 
 public class ReusableMethods extends Pages {
 
-    Actions actions=new Actions(Driver.getDriver());
-    public void moveElement(WebElement element){
-        waitForVisibility(element,9);
+    Actions actions = new Actions(Driver.getDriver());
+    static Select select;
+
+    public void moveElement(WebElement element) {
+        waitForVisibility(element, 9);
         actions.moveToElement(element);
     }
-    public static void waitThread(int second){
+
+    public static void waitThread(int second) {
         try {
-            Thread.sleep(second* 1000L);
+            Thread.sleep(second * 1000L);
         } catch (InterruptedException e) {
             System.err.println("***** Wait Exception *****");
         }
 
     }
+
     public static String getScreenshot(String name) {
         // naming the screenshot with the current date to avoid duplication
         String date = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
@@ -48,10 +52,12 @@ public class ReusableMethods extends Pages {
         }
         return target;
     }
+
     public static WebElement waitForVisibility(WebElement element, int timeout) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeout));
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
+
     public static void clickElement(WebElement element) {
         waitForVisibility(element, 40);
         element.click();
@@ -76,44 +82,54 @@ public class ReusableMethods extends Pages {
         element.sendKeys(keys);
     }
 
-    public static void jsclick(WebElement webElement){
+    public static void jsclick(WebElement webElement) {
         JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
 
-            js.executeScript("arguments[0].scrollIntoView(true);", webElement);
-            js.executeScript("arguments[0].click()", webElement);
+        js.executeScript("arguments[0].scrollIntoView(true);", webElement);
+        js.executeScript("arguments[0].click()", webElement);
 
 
     }
-    public static String  getValueWithJs(String elementId){
-        JavascriptExecutor js=(JavascriptExecutor)Driver.getDriver();
-        String value=js.executeScript("return document.getElementById('"+elementId+"').value").toString();
+
+    public static String getValueWithJs(String elementId) {
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        String value = js.executeScript("return document.getElementById('" + elementId + "').value").toString();
         return value;
     }
-    public static void setValueByJS(WebElement element,String key, String text){
-        JavascriptExecutor js = (JavascriptExecutor)Driver.getDriver();
-        js.executeScript("arguments[0].setAttribute('"+key+"','"+text+"')",element);
+
+    public static void setValueByJS(WebElement element, String key, String text) {
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        js.executeScript("arguments[0].setAttribute('" + key + "','" + text + "')", element);
     }
 
-    public static void removeValueByJS(WebElement element){
-        JavascriptExecutor js = (JavascriptExecutor)Driver.getDriver();
-        js.executeScript("arguments[0].removeAttribute('class')",element);
+    public static void removeValueByJS(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        js.executeScript("arguments[0].removeAttribute('class')", element);
     }
 
-    public static void deleteDisabledValueInClass(WebElement element){
-        JavascriptExecutor js = (JavascriptExecutor)Driver.getDriver();
-        js.executeScript("document.querySelector('div').classList.remove('disabled');",element);
-    }
-
-
-
-
-    public void clearElementValueByJS(WebElement element, String value) {
-        try {
-            JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
-            jse.executeScript("arguments[0].class='" + value + "'", element);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static void toEnableElement(WebElement element) {
+        String classValue = element.getAttribute("class");
+        if (classValue.contains("disabled")) {
+            classValue = classValue.replace("disabled", "");
+            setValueByJS(element, "class", classValue);
         }
     }
 
+    public static void clickConnectButtonAtTheSameRowSearchedGroupName(List<WebElement> webElementList) {
+        int groupNameSize = webElementList.size();
+        for (int i = 0; i < groupNameSize; i++) {
+            if (Driver.getDriver().findElement(By.xpath("(//tbody)[3]/tr[" + (i + 1) + "]/td[3]"))
+                    .getText().contains(ConfigReader.getProperty("SEARCHEDWORD"))) {
+                jsclick(Driver.getDriver().findElement(By.xpath("(//*[@class='dx-icon fas fa-link'])[" + i + 1 + "]")));
+                break;
+            }
+        }
+    }
+
+    public static void chooseVisibleTextFromDropDown(WebElement elementDropDown,String visibleText) {
+        select = new Select(elementDropDown);
+        if (!select.getFirstSelectedOption().getText().equals(visibleText)) {
+            select.selectByVisibleText(visibleText);
+        }
+    }
 }
