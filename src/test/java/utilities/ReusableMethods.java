@@ -100,6 +100,7 @@ public class ReusableMethods extends Pages {
     public static void toEnableElement(WebElement element) {
         String classValue = element.getAttribute("class");
         if (classValue.contains("disabled")) {
+            getScreenshot(element.getText()+" Element Disabled");
             classValue = classValue.replace("disabled", "");
             setValueByJS(element, "class", classValue);
         }

@@ -15,7 +15,7 @@ public class JobPage {
     @FindBy(xpath = "//*[@id='epcJobFinishPopupAndSelectionButton']/parent::div")
     public WebElement jobButton;
 
-     @FindBy(xpath = "//*[@class=\"dx-template-wrapper dx-button-content\" and .=' Select from List ']")
+    @FindBy(xpath = "//*[@class=\"dx-template-wrapper dx-button-content\" and .=' Select from List ']")
     public WebElement selectFromListButton;
 
     @FindBy(xpath = "//*[@class=\"dx-template-wrapper dx-button-content\" and .=' Select from Work Order ']")
@@ -71,6 +71,8 @@ public class JobPage {
     public WebElement yesButton;
 
 
+    @FindBy(xpath = "//*[.=' Offline ' and @class='kt-margin-t-5']")
+    public List<WebElement> offlineTextOnTheHeader;
 
 
 }

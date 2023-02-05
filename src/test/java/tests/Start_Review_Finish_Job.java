@@ -88,6 +88,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         extentTest = extentReports.createTest("TC_02 Choose a Job Test",
                 "User chooses a job from work order by selecting from list");
 
+        assertEquals(jobPage().offlineTextOnTheHeader.size(),0,"|***** The System is offline *****|");
 
         toEnableElement(jobPage().jobButton);
         clickElement(jobPage().jobButton);
