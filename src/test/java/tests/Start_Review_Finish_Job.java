@@ -59,7 +59,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
 
     @Test(dependsOnMethods = {"login_Positive"}, priority = 1)
     public void chooseGroupTest() {
-        extentTest = extentReports.createTest("TC_01 Choose a Group Test",
+        extentTest = extentReports.createTest("TC_02 Choose a Group Test",
                 "User chooses group that includes text '" + ConfigReader.getProperty("SEARCHEDWORD") + "'");
 
         moveElement(dashboardPage().dashboardIcon);
@@ -85,11 +85,11 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
     @Test(dependsOnMethods = {"login_Positive","chooseGroupTest"}, priority = 2)
     public void chooseAJob() {
 
-        extentTest = extentReports.createTest("TC_02 Choose a Job Test",
+        extentTest = extentReports.createTest("TC_03 Choose a Job Test",
                 "User chooses a job from work order by selecting from list");
 
 //If System is offline, stop the test
-        //assertEquals(jobPage().offlineTextOnTheHeader.size(),0,"|***** The System is offline *****|");
+        assertEquals(jobPage().offlineTextOnTheHeader.size(),0,"|***** The System is offline *****|");
 
 
         String errMessage=toEnableElement(jobPage().jobButton);
@@ -131,7 +131,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
     @Test(dependsOnMethods = {"login_Positive","chooseGroupTest", "chooseAJob"}, priority = 3)
     public void startMachine() {
 
-        extentTest = extentReports.createTest("TC_03 Start a Machine Test",
+        extentTest = extentReports.createTest("TC_04 Start a Machine Test",
                 "User starts a machine from list");
 
         clickElement(jobPage().continueButton);
@@ -155,7 +155,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
 
     @Test(dependsOnMethods = {"login_Positive","chooseGroupTest", "chooseAJob", "startMachine"}, priority = 4)
     public void informationVerify() {
-        extentTest = extentReports.createTest("TC_04 Verify job information",
+        extentTest = extentReports.createTest("TC_05 Verify job information",
                 "User does verifies that Machine name,OrderReference No, Order Op. ID, Plan Quantity, Speed ");
 
         String errMessage=toEnableElement(jobPage().activeJobInformationButton);
@@ -196,7 +196,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
 
     @Test(dependsOnMethods = {"login_Positive","chooseGroupTest", "chooseAJob", "startMachine"}, priority = 4)
     public void notFinishTheJob() {
-        extentTest = extentReports.createTest("TC_05 Not Finish the job test",
+        extentTest = extentReports.createTest("TC_06 Not Finish the job test",
                 "User should not finish the job");
 
 
@@ -219,7 +219,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
 
     @Test(dependsOnMethods = {"login_Positive","chooseGroupTest", "chooseAJob", "startMachine"}, priority = 5)
     public void finishTheJob() {
-        extentTest = extentReports.createTest("TC_06 Finish the job test",
+        extentTest = extentReports.createTest("TC_07 Finish the job test",
                 "User should finish the job");
 
 
