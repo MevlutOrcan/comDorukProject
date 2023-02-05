@@ -103,7 +103,7 @@ public class ReusableMethods extends Pages {
         String classValue = element.getAttribute("class");
         String message="";
         if (classValue.contains("disabled")) {
-            message="||********* There are a problem to get *********||";
+            System.out.println("\n\n||********* There are a problem to get *********||");
             getScreenshot(element.getText()+" Element Disabled");
             classValue = classValue.replace("disabled", "");
             setValueByJS(element, "class", classValue);

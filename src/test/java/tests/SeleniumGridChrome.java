@@ -43,7 +43,7 @@ WebDriver driver;
         extentTest.info("User clicks enter button");
 
         Assert.assertTrue(driver.findElement(By.cssSelector(".kt-header__topbar-user")).isDisplayed());
-        extentTest.pass("User verifies hello message is visible");
+        extentTest.pass("User verifies "+ConfigReader.getProperty("DEFAULTWELCOME")+" message is visible");
         driver.quit();
 
 

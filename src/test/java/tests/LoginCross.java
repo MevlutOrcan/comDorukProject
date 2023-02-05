@@ -31,7 +31,7 @@ public class LoginCross extends TestBaseCross {
         System.err.println("User clicks enter button");
 
         Assert.assertTrue(driver.findElement(By.cssSelector(".kt-header__topbar-user")).isDisplayed());
-        System.err.println("User verifies Hello message is visible");
+        System.err.println("User verifies "+ConfigReader.getProperty("DEFAULTWELCOME")+" message is visible");
 
         System.err.println("\n\t\t  *********  Test PASSED Successfully  ********* \n\n\n");
     }

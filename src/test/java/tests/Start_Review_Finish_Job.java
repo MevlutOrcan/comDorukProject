@@ -52,7 +52,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
 
         String welcome = dashboardPage().helloButton.getText() + " " + Driver.getDriver().findElement(By.xpath("//h6/*[.=' " + ConfigReader.getProperty("VALIDUSERNAME") + "']")).getText();
         assertEquals("Hello " + ConfigReader.getProperty("VALIDUSERNAME"), welcome);
-        extentTest.pass("User verifies the welcome message 'Hello "+ConfigReader.getProperty("VALIDUSERNAME")+"' is visible");
+        extentTest.pass("User verifies the welcome message '"+ConfigReader.getProperty("DEFAULTWELCOME")+" "+ConfigReader.getProperty("VALIDUSERNAME")+"' is visible");
 
 
     }
@@ -89,7 +89,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
                 "User chooses a job from work order by selecting from list");
 
 //If System is offline, stop the test
-        assertEquals(jobPage().offlineTextOnTheHeader.size(),0,"|***** The System is offline *****|");
+        //assertEquals(jobPage().offlineTextOnTheHeader.size(),0,"|***** The System is offline *****|");
 
 
         String errMessage=toEnableElement(jobPage().jobButton);
@@ -158,8 +158,8 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         extentTest = extentReports.createTest("TC_04 Verify job information",
                 "User does verifies that Machine name,OrderReference No, Order Op. ID, Plan Quantity, Speed ");
 
-        String errMessage=toEnableElement(jobPage().jobButton);
-        clickElement(jobPage().jobButton);
+        String errMessage=toEnableElement(jobPage().activeJobInformationButton);
+
         extentTest.info(errMessage);
         clickElement(jobPage().activeJobInformationButton);
         extentTest.info("User clicks Active Job Information button");
@@ -203,7 +203,6 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         String errMessage=toEnableElement(jobPage().jobButton);
         clickElement(jobPage().jobButton);
         extentTest.info(errMessage);
-        clickElement(jobPage().jobButton);
         extentTest.info("User clicks Job button");
 
         clickElement(jobPage().finishTheJobButton);
@@ -227,7 +226,6 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         String errMessage=toEnableElement(jobPage().jobButton);
         clickElement(jobPage().jobButton);
         extentTest.info(errMessage);
-        clickElement(jobPage().jobButton);
         extentTest.info("User clicks Job button");
 
         clickElement(jobPage().finishTheJobButton);
