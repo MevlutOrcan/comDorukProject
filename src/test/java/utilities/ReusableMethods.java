@@ -99,14 +99,16 @@ public class ReusableMethods extends Pages {
 
 // If System is not offline but there are a problem to get element also,
 // take me a screenshot and make enable to element and continue test
-    public static void toEnableElement(WebElement element) {
+    public static String toEnableElement(WebElement element) {
         String classValue = element.getAttribute("class");
+        String message="";
         if (classValue.contains("disabled")) {
-            System.err.println("\n\n \t\t There are a problem to get "+element.getText()+"element\n\n");
+            message="||********* There are a problem to get *********||";
             getScreenshot(element.getText()+" Element Disabled");
             classValue = classValue.replace("disabled", "");
             setValueByJS(element, "class", classValue);
         }
+        return message;
     }
 
     public static void clickConnectButtonAtTheSameRowSearchedGroupName(List<WebElement> webElementList) {
