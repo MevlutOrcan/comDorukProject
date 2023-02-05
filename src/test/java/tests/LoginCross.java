@@ -4,18 +4,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.Pages;
 import utilities.ConfigReader;
 import utilities.TestBaseCross;
 
-import static org.testng.Assert.assertEquals;
+
 
 public class LoginCross extends TestBaseCross {
-    Pages pages = new Pages();
-
     @Test
     public void upperUsername() {
-        System.err.println("TC_17 Cross Browser Login with valid Username in Uppercase");
+        System.err.println("TC_18 Cross Browser Login with valid Username in Uppercase");
         System.err.println("\n\n\n \t\t  ********* TEST REPORT  ********* \n");
         driver.get(ConfigReader.getProperty("URL"));
         System.err.println("User goes to App");

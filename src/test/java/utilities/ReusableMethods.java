@@ -97,9 +97,12 @@ public class ReusableMethods extends Pages {
         js.executeScript("arguments[0].setAttribute('" + key + "','" + text + "')", element);
     }
 
+// If System is not offline but there are a problem to get element also,
+// take me a screenshot and make enable to element and continue test
     public static void toEnableElement(WebElement element) {
         String classValue = element.getAttribute("class");
         if (classValue.contains("disabled")) {
+            System.err.println("\n\n \t\t There are a problem to get "+element.getText()+"element\n\n");
             getScreenshot(element.getText()+" Element Disabled");
             classValue = classValue.replace("disabled", "");
             setValueByJS(element, "class", classValue);
@@ -107,7 +110,7 @@ public class ReusableMethods extends Pages {
     }
 
     public static void clickConnectButtonAtTheSameRowSearchedGroupName(List<WebElement> webElementList) {
-        waitThread(1);
+        waitThread(1);//
         int groupNameSize = webElementList.size();
         for (int i = 0; i < groupNameSize; i++) {
             if (Driver.getDriver().findElement(By.xpath("(//tbody)[3]/tr[" + (i + 1) + "]/td[3]"))

@@ -88,7 +88,9 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         extentTest = extentReports.createTest("TC_02 Choose a Job Test",
                 "User chooses a job from work order by selecting from list");
 
+//If System is offline, stop the test
         assertEquals(jobPage().offlineTextOnTheHeader.size(),0,"|***** The System is offline *****|");
+
 
         toEnableElement(jobPage().jobButton);
         clickElement(jobPage().jobButton);
@@ -104,6 +106,8 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
         jobPage().orderReferenceNoSearchBox.sendKeys(ConfigReader.getProperty("SEARCHEDWORD"));
         extentTest.info("User enters '" + ConfigReader.getProperty("SEARCHEDWORD") + "' the search box under the Order Reference No column ");
 
+// 110-125 Determine a radio button randomly
+// then according to this, take information from at the same row of radio button
         waitThread(1);
         List<WebElement> radioButtonList = jobPage().radioButtonList;
         Random rnd = new Random();
@@ -167,12 +171,14 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
 
         extentTest.info("User verifies that the OrderReference No and Order Op. ID values are equal to the OrderReference No and Order Op. ID of the setup step");
 
-//*** Bu kisim esit olmali diyor ama ilk slash a kadar esit
+// Requirement says that planQuantity and amount must be equal
+// But only equal until first slash of plantQuantity
         String planQuantity=jobPage().planQuantity.getText().split("/")[0];
         softAssert.assertEquals(planQuantity,amount);
         extentTest.info("User verifies that the Plan Quantity value is equal to the Amount  of the setup step");
 
-//*** Bu kisim esit olmali diyor ama ilk slash a kadar esit
+// Requirement says that speed and netCycle must be equal
+// But only equal until first slash of speed
         String speed=jobPage().speed.getText().split("/")[0];
         softAssert.assertEquals(speed,netCycle);
         extentTest.info("User verifies that the Speed value is equal to the Net Cycle of the setup step");
@@ -189,6 +195,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
     public void notFinishTheJob() {
         extentTest = extentReports.createTest("TC_05 Not Finish the job test",
                 "User should not finish the job");
+
 
         toEnableElement(jobPage().jobButton);
         clickElement(jobPage().jobButton);
@@ -210,6 +217,7 @@ public class Start_Review_Finish_Job extends TestBaseRapor {
     public void finishTheJob() {
         extentTest = extentReports.createTest("TC_06 Finish the job test",
                 "User should finish the job");
+
 
         toEnableElement(jobPage().jobButton);
         clickElement(jobPage().jobButton);

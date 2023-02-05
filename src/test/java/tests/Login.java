@@ -36,6 +36,7 @@ public class Login extends TestBaseRapor {
                 {"VALIDUSERNAME", "SPACES","TC_014 "},
                 {"SPACES", "VALIDPASSWORD","TC_015 "},
                 {"SPACES", "SPACES","TC_016 "},
+                {"VALIDPASSWORD", "VALIDUSERNAME","TC_017 "},
         };
     }
 
